@@ -1,0 +1,272 @@
+```html
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Anı Albümümüz</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ANA SAYFA -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="small-title">
+                BİZİM HİKÂYEMİZ
+            </p>
+
+            <h1>
+                Mert & Burçin ❤️
+            </h1>
+
+            <p class="date">
+                13 Eylül 2026
+            </p>
+
+            <p class="description">
+                Birlikte yaşadığımız güzel anıları
+                burada biriktiriyoruz.
+            </p>
+
+            <a href="#galeri" class="button">
+                Anılarımıza Bak
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FOTOĞRAF GALERİSİ -->
+
+    <section id="galeri" class="gallery-section">
+
+        <p class="section-small-title">
+            ANILARIMIZ
+        </p>
+
+        <h2>
+            Güzel Anılar
+        </h2>
+
+        <p class="section-description">
+            Birlikte yaşadığımız güzel anlardan bazıları...
+        </p>
+
+
+        <div
+            class="gallery"
+            id="gallery"
+        >
+
+            <!-- Firebase anıları buraya gelecek -->
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FOTOĞRAF BÜYÜTME -->
+
+    <div
+        id="lightbox"
+        class="lightbox"
+        onclick="closeLightbox(event)"
+    >
+
+        <button
+            class="close-button"
+            onclick="closeLightbox()"
+        >
+            &times;
+        </button>
+
+
+        <button
+            class="prev-button"
+            onclick="previousPhoto(event)"
+        >
+            &#10094;
+        </button>
+
+
+        <img
+            id="lightbox-image"
+            src=""
+            alt="Büyük fotoğraf"
+        >
+
+
+        <button
+            class="next-button"
+            onclick="nextPhoto(event)"
+        >
+            &#10095;
+        </button>
+
+    </div>
+
+
+
+    <!-- ANI BIRAK -->
+
+    <section class="message-section">
+
+        <p class="section-small-title">
+            SEN DE BİZİMLE PAYLAŞ
+        </p>
+
+
+        <h2>
+            Bir Anı Bırak ❤️
+        </h2>
+
+
+        <p>
+            Bizimle geçirdiğin güzel bir anıyı,
+            mesajı veya fotoğrafı paylaş.
+        </p>
+
+
+        <button
+            class="button"
+            onclick="openMemoryForm()"
+        >
+            Anımı Bırak
+        </button>
+
+    </section>
+
+
+
+    <!-- ANI FORMU -->
+
+    <div
+        id="memory-modal"
+        class="memory-modal"
+    >
+
+        <div class="memory-form">
+
+
+            <button
+                class="form-close"
+                onclick="closeMemoryForm()"
+            >
+                &times;
+            </button>
+
+
+            <p class="section-small-title">
+                BİZİMLE PAYLAŞ
+            </p>
+
+
+            <h2>
+                Bir Anı Bırak ❤️
+            </h2>
+
+
+            <form
+                id="memory-form"
+                onsubmit="submitMemory(event)"
+            >
+
+
+                <label for="name">
+                    Adınız
+                </label>
+
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Adınızı yazın"
+                    required
+                >
+
+
+                <label for="message">
+                    Anınız / Mesajınız
+                </label>
+
+
+                <textarea
+                    id="message"
+                    rows="5"
+                    placeholder="Güzel bir anınızı bizimle paylaşın..."
+                    required
+                ></textarea>
+
+
+                <label for="memory-photo">
+                    Fotoğraf
+                </label>
+
+
+                <input
+                    type="file"
+                    id="memory-photo"
+                    accept="image/*"
+                    required
+                >
+
+
+                <p class="file-info">
+                    Fotoğrafınızı seçin.
+                    Maksimum 5 MB.
+                </p>
+
+
+                <button
+                    type="submit"
+                    class="button submit-button"
+                >
+                    Anımı Gönder ❤️
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            Bizim hikâyemizin bir parçası olduğun için teşekkürler. ❤️
+        </p>
+
+    </footer>
+
+
+
+    <script
+        type="module"
+        src="script.js"
+    ></script>
+
+</body>
+
+</html>
+```
