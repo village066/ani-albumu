@@ -1,12 +1,15 @@
+
+/* ======================================================
+   GENEL
+====================================================== */
+
 * {
     box-sizing: border-box;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
     margin: 0;
@@ -22,18 +25,17 @@ body {
 }
 
 
-/* =========================
+
+/* ======================================================
    ANA SAYFA
-========================= */
+====================================================== */
 
 .hero {
-
     min-height: 100vh;
 
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     text-align: center;
@@ -43,67 +45,54 @@ body {
     background-color: #eee5df;
 }
 
-
 .hero-content {
-
     max-width: 700px;
-
 }
 
-
 .small-title {
-
     font-size: 13px;
 
     letter-spacing: 5px;
 
     margin-bottom: 25px;
-
 }
 
-
 h1 {
-
     font-size: 60px;
 
     font-weight: normal;
 
-    margin: 0 0 20px;
-
+    margin:
+        0 0 20px;
 }
 
-
 .date {
-
     font-size: 18px;
 
     letter-spacing: 3px;
 
     margin-bottom: 30px;
-
 }
 
-
 .description {
-
     font-size: 20px;
 
     line-height: 1.7;
 
     margin-bottom: 35px;
-
 }
 
 
-/* =========================
+
+/* ======================================================
    BUTON
-========================= */
+====================================================== */
 
 .button {
-
     display: inline-block;
 
-    padding: 14px 30px;
+    padding:
+        14px 30px;
 
     background-color: #3d3531;
 
@@ -121,164 +110,277 @@ h1 {
 
     font-size: 15px;
 
-    transition: 0.3s;
-
+    transition:
+        0.3s;
 }
-
 
 .button:hover {
-
-    transform: translateY(-3px);
-
+    transform:
+        translateY(-3px);
 }
 
 
-/* =========================
-   GALERİ
-========================= */
+
+/* ======================================================
+   GALERİ BÖLÜMÜ
+====================================================== */
 
 .gallery-section {
+    padding:
+        90px 25px;
 
-    padding: 90px 25px;
-
-    max-width: 1100px;
+    max-width: 1200px;
 
     margin: auto;
 
     text-align: center;
-
 }
 
-
 .section-small-title {
-
     font-size: 13px;
 
     letter-spacing: 4px;
-
 }
 
-
 h2 {
-
     font-size: 42px;
 
     font-weight: normal;
 
-    margin: 15px 0;
-
+    margin:
+        15px 0;
 }
-
 
 .section-description {
-
     font-size: 17px;
-
 }
 
 
-.gallery {
 
-    display: grid;
+/* ======================================================
+   GALERİ KONTROLLERİ
+====================================================== */
 
-    grid-template-columns:
-        repeat(3, 1fr);
+.gallery-controls {
+    display: flex;
 
-    gap: 20px;
+    justify-content: center;
 
-    margin-top: 45px;
+    align-items: center;
 
+    gap: 22px;
+
+    margin-top: 30px;
+
+    margin-bottom: 25px;
 }
 
+.gallery-arrow {
+    width: 42px;
 
-.photo-card {
+    height: 42px;
 
-    overflow: hidden;
+    border: none;
+
+    border-radius: 50%;
+
+    background-color: #3d3531;
+
+    color: white;
+
+    font-size: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     cursor: pointer;
 
-    border-radius: 5px;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
 
-    background-color: white;
+.gallery-arrow:hover {
+    transform:
+        scale(1.08);
+}
 
-    text-align: left;
+.gallery-arrow:disabled {
+    opacity: 0.3;
 
-    box-shadow: 0 12px 30px rgba(61, 53, 49, 0.08);
+    cursor: default;
 
+    transform: none;
+}
+
+#gallery-counter {
+    min-width: 60px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    color: #3d3531;
+
+    letter-spacing: 2px;
 }
 
 
-.photo-card img {
 
+/* ======================================================
+   GALERİ
+====================================================== */
+
+.gallery {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+
+    margin-top: 20px;
+}
+
+
+
+/* ======================================================
+   ANI KARTI
+====================================================== */
+
+.photo-card {
+    overflow: hidden;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    text-align: left;
+
+    box-shadow:
+        0 12px 30px
+        rgba(
+            61,
+            53,
+            49,
+            0.10
+        );
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.photo-card:hover {
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 18px 35px
+        rgba(
+            61,
+            53,
+            49,
+            0.15
+        );
+}
+
+
+
+/* ======================================================
+   FOTOĞRAF
+====================================================== */
+
+.photo-card img {
     width: 100%;
 
-    height: 350px;
+    height: 330px;
 
     object-fit: cover;
 
     display: block;
 
-    transition: 0.4s;
+    cursor: pointer;
 
+    transition:
+        transform 0.4s ease;
 }
-
 
 .photo-card:hover img {
-
-    transform: scale(1.05);
-
+    transform:
+        scale(1.04);
 }
 
 
-.photo-card-content {
 
-    padding: 18px 20px 20px;
+/* ======================================================
+   ANI BİLGİLERİ
+====================================================== */
 
+.memory-info {
+    padding: 20px;
+
+    background-color: white;
+
+    text-align: left;
 }
 
+.memory-info h3 {
+    margin:
+        0 0 10px;
 
-.photo-card-content h3 {
-
-    margin: 0 0 8px;
-
-    font-size: 20px;
+    font-size: 19px;
 
     font-weight: normal;
-
 }
 
-
-.photo-card-content p {
-
-    margin: 0;
+.memory-info p {
+    margin:
+        0 0 15px;
 
     color: #756963;
 
     font-size: 15px;
 
-    line-height: 1.6;
+    line-height: 1.7;
+}
 
+.memory-date {
+    padding-top: 12px;
+
+    border-top:
+        1px solid #eee;
+
+    color: #999;
+
+    font-size: 13px;
 }
 
 
-/* =========================
+
+/* ======================================================
    FOTOĞRAF BÜYÜTME
-========================= */
+====================================================== */
 
 .lightbox {
-
     position: fixed;
 
     top: 0;
-
     left: 0;
 
     width: 100%;
-
     height: 100%;
 
     background-color:
-        rgba(0, 0, 0, 0.88);
+        rgba(
+            0,
+            0,
+            0,
+            0.88
+        );
 
     display: none;
 
@@ -287,19 +389,13 @@ h2 {
     align-items: center;
 
     z-index: 1000;
-
 }
-
 
 .lightbox.active {
-
     display: flex;
-
 }
 
-
 .lightbox img {
-
     max-width: 80%;
 
     max-height: 85%;
@@ -307,12 +403,9 @@ h2 {
     object-fit: contain;
 
     border-radius: 5px;
-
 }
 
-
 .close-button {
-
     position: absolute;
 
     top: 20px;
@@ -328,18 +421,16 @@ h2 {
     font-size: 45px;
 
     cursor: pointer;
-
 }
-
 
 .prev-button,
 .next-button {
-
     position: absolute;
 
     top: 50%;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
     background: none;
 
@@ -352,79 +443,70 @@ h2 {
     cursor: pointer;
 
     padding: 20px;
-
 }
-
 
 .prev-button {
-
     left: 20px;
-
 }
-
 
 .next-button {
-
     right: 20px;
-
 }
-
 
 .prev-button:hover,
 .next-button:hover,
 .close-button:hover {
-
     opacity: 0.7;
-
 }
 
 
-/* =========================
-   ANI BIRAK BÖLÜMÜ
-========================= */
+
+/* ======================================================
+   ANI BIRAK
+====================================================== */
 
 .message-section {
-
-    padding: 90px 25px;
+    padding:
+        90px 25px;
 
     text-align: center;
 
     background-color: #eee5df;
-
 }
 
-
 .message-section p {
-
     max-width: 600px;
 
-    margin: 20px auto 30px;
+    margin:
+        20px auto 30px;
 
     line-height: 1.7;
 
     font-size: 17px;
-
 }
 
 
-/* =========================
+
+/* ======================================================
    ANI FORMU
-========================= */
+====================================================== */
 
 .memory-modal {
-
     position: fixed;
 
     top: 0;
-
     left: 0;
 
     width: 100%;
-
     height: 100%;
 
     background-color:
-        rgba(0, 0, 0, 0.65);
+        rgba(
+            0,
+            0,
+            0,
+            0.65
+        );
 
     display: none;
 
@@ -435,19 +517,13 @@ h2 {
     padding: 20px;
 
     z-index: 2000;
-
 }
-
 
 .memory-modal.active {
-
     display: flex;
-
 }
 
-
 .memory-form {
-
     position: relative;
 
     width: 100%;
@@ -458,17 +534,15 @@ h2 {
 
     overflow-y: auto;
 
-    padding: 45px 40px;
+    padding:
+        45px 40px;
 
     background-color: #faf7f4;
 
-    border-radius: 8px;
-
+    border-radius: 12px;
 }
 
-
 .form-close {
-
     position: absolute;
 
     top: 10px;
@@ -484,47 +558,36 @@ h2 {
     color: #3d3531;
 
     cursor: pointer;
-
 }
-
 
 .memory-form h2 {
-
     margin-bottom: 30px;
-
 }
 
-
 .memory-form form {
-
     display: flex;
 
     flex-direction: column;
 
     text-align: left;
-
 }
 
-
 .memory-form label {
-
     margin-top: 18px;
 
     margin-bottom: 8px;
 
     font-size: 15px;
-
 }
-
 
 .memory-form input[type="text"],
 .memory-form textarea {
-
     width: 100%;
 
     padding: 13px;
 
-    border: 1px solid #d5cbc4;
+    border:
+        1px solid #d5cbc4;
 
     border-radius: 5px;
 
@@ -535,52 +598,41 @@ h2 {
     font-size: 15px;
 
     color: #3d3531;
-
 }
-
 
 .memory-form textarea {
-
     resize: vertical;
-
 }
-
 
 .memory-form input[type="file"] {
-
-    padding: 10px 0;
+    padding:
+        10px 0;
 
     font-family: inherit;
-
 }
 
-
 .file-info {
-
     font-size: 13px;
 
     color: #756963;
 
-    margin: 5px 0 20px;
-
+    margin:
+        5px 0 20px;
 }
 
-
 .submit-button {
-
     margin-top: 20px;
 
     width: 100%;
-
 }
 
 
-/* =========================
+
+/* ======================================================
    FOOTER
-========================= */
+====================================================== */
 
 footer {
-
     padding: 30px;
 
     text-align: center;
@@ -588,136 +640,139 @@ footer {
     background-color: #3d3531;
 
     color: white;
-
 }
 
 
-/* =========================
+
+/* ======================================================
    TELEFON
-========================= */
+====================================================== */
 
 @media (max-width: 700px) {
 
     h1 {
-
         font-size: 42px;
-
     }
-
 
     h2 {
-
         font-size: 34px;
-
     }
 
+    .hero {
+        padding:
+            25px 20px;
+    }
+
+    .description {
+        font-size: 17px;
+    }
+
+
+    /* Telefonlarda sayaç ve oklar yok */
+
+    .gallery-controls {
+        display: none !important;
+    }
+
+
+    /* Yatay galeri */
 
     .gallery {
+        display: flex;
 
-        grid-template-columns: 1fr;
+        flex-direction: row;
 
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        gap: 18px;
+
+        width: 100%;
+
+        margin-top: 35px;
+
+        padding:
+            5px 10px 20px;
+
+        scroll-snap-type:
+            x mandatory;
+
+        scroll-behavior: smooth;
+
+        -webkit-overflow-scrolling:
+            touch;
     }
 
 
-    .photo-card img {
+    .gallery .photo-card {
+        flex:
+            0 0 88%;
+
+        width: 88%;
+
+        min-width: 88%;
+
+        scroll-snap-align: center;
+
+        transform: none;
+    }
+
+
+    .gallery .photo-card:hover {
+        transform: none;
+    }
+
+
+    .gallery .photo-card img {
+        width: 100%;
 
         height: 300px;
 
+        object-fit: cover;
     }
 
 
-    .description {
-
-        font-size: 17px;
-
+    .memory-info {
+        padding: 18px;
     }
 
 
     .lightbox img {
-
         max-width: 90%;
 
         max-height: 80%;
-
     }
 
 
     .prev-button,
     .next-button {
-
         font-size: 30px;
 
         padding: 10px;
-
     }
 
 
     .prev-button {
-
         left: 5px;
-
     }
 
 
     .next-button {
-
         right: 5px;
-
     }
 
 
     .close-button {
-
         right: 15px;
 
         top: 10px;
-
     }
 
 
     .memory-form {
-
-        padding: 40px 25px;
-
+        padding:
+            40px 25px;
     }
 
-}
-.memory-info {
-    padding: 18px;
-    background: white;
-    text-align: left;
-}
-
-.memory-info h3 {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-}
-
-.memory-info p {
-    margin: 0;
-    color: #666;
-    line-height: 1.6;
-}
-.memory-info {
-    padding: 18px;
-    background: white;
-    text-align: left;
-}
-
-.memory-info h3 {
-    margin: 0 0 10px 0;
-    font-size: 19px;
-}
-
-.memory-info p {
-    margin: 0 0 12px 0;
-    color: #666;
-    line-height: 1.6;
-}
-
-.memory-date {
-    font-size: 13px;
-    color: #999;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
 }
