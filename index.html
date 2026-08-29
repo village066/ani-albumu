@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -6,11 +6,17 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Anı Albümümüz</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
@@ -18,7 +24,9 @@
 <body>
 
 
-    <!-- ANA SAYFA -->
+    <!-- ==================================================
+         ANA SAYFA
+    ================================================== -->
 
     <section class="hero">
 
@@ -41,7 +49,10 @@
                 burada biriktiriyoruz.
             </p>
 
-            <a href="#galeri" class="button">
+            <a
+                href="#galeri"
+                class="button"
+            >
                 Anılarımıza Bak
             </a>
 
@@ -51,9 +62,14 @@
 
 
 
-    <!-- FOTOĞRAF GALERİSİ -->
+    <!-- ==================================================
+         FOTOĞRAF GALERİSİ
+    ================================================== -->
 
-    <section id="galeri" class="gallery-section">
+    <section
+        id="galeri"
+        class="gallery-section"
+    >
 
         <p class="section-small-title">
             ANILARIMIZ
@@ -68,6 +84,38 @@
         </p>
 
 
+        <!-- GALERİ KONTROLLERİ -->
+
+        <div
+            id="gallery-controls"
+            class="gallery-controls"
+        >
+
+            <button
+                id="gallery-prev"
+                class="gallery-arrow"
+                type="button"
+            >
+                &#10094;
+            </button>
+
+            <span id="gallery-counter">
+                1 / 1
+            </span>
+
+            <button
+                id="gallery-next"
+                class="gallery-arrow"
+                type="button"
+            >
+                &#10095;
+            </button>
+
+        </div>
+
+
+        <!-- GALERİ -->
+
         <div
             class="gallery"
             id="gallery"
@@ -81,7 +129,9 @@
 
 
 
-    <!-- FOTOĞRAF BÜYÜTME -->
+    <!-- ==================================================
+         FOTOĞRAF BÜYÜTME
+    ================================================== -->
 
     <div
         id="lightbox"
@@ -91,7 +141,8 @@
 
         <button
             class="close-button"
-            onclick="closeLightbox()"
+            type="button"
+            onclick="closeLightbox(event)"
         >
             &times;
         </button>
@@ -99,6 +150,7 @@
 
         <button
             class="prev-button"
+            type="button"
             onclick="previousPhoto(event)"
         >
             &#10094;
@@ -114,6 +166,7 @@
 
         <button
             class="next-button"
+            type="button"
             onclick="nextPhoto(event)"
         >
             &#10095;
@@ -123,7 +176,9 @@
 
 
 
-    <!-- ANI BIRAK -->
+    <!-- ==================================================
+         ANI BIRAK
+    ================================================== -->
 
     <section class="message-section">
 
@@ -131,20 +186,18 @@
             SEN DE BİZİMLE PAYLAŞ
         </p>
 
-
         <h2>
             Bir Anı Bırak ❤️
         </h2>
-
 
         <p>
             Bizimle geçirdiğin güzel bir anıyı,
             mesajı veya fotoğrafı paylaş.
         </p>
 
-
         <button
             class="button"
+            type="button"
             onclick="openMemoryForm()"
         >
             Anımı Bırak
@@ -154,7 +207,9 @@
 
 
 
-    <!-- ANI FORMU -->
+    <!-- ==================================================
+         ANI FORMU
+    ================================================== -->
 
     <div
         id="memory-modal"
@@ -166,6 +221,7 @@
 
             <button
                 class="form-close"
+                type="button"
                 onclick="closeMemoryForm()"
             >
                 &times;
@@ -175,7 +231,6 @@
             <p class="section-small-title">
                 BİZİMLE PAYLAŞ
             </p>
-
 
             <h2>
                 Bir Anı Bırak ❤️
@@ -192,7 +247,6 @@
                     Adınız
                 </label>
 
-
                 <input
                     type="text"
                     id="name"
@@ -205,7 +259,6 @@
                     Anınız / Mesajınız
                 </label>
 
-
                 <textarea
                     id="message"
                     rows="5"
@@ -217,7 +270,6 @@
                 <label for="memory-photo">
                     Fotoğraf
                 </label>
-
 
                 <input
                     type="file"
@@ -249,24 +301,29 @@
 
 
 
-    <!-- FOOTER -->
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
 
     <footer>
 
         <p>
-            Bizim hikâyemizin bir parçası olduğun için teşekkürler. ❤️
+            Bizim hikâyemizin bir parçası olduğun için
+            teşekkürler. ❤️
         </p>
 
     </footer>
 
 
 
+    <!-- JAVASCRIPT -->
+
     <script
         type="module"
         src="script.js"
     ></script>
 
+
 </body>
 
 </html>
-```
