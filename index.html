@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -25,6 +24,54 @@
 
 
     <!-- ==================================================
+         ANI BIRAK - EN ÜST BÖLÜM
+    ================================================== -->
+
+    <section class="message-section">
+
+        <p class="section-small-title">
+            SEN DE BİZİMLE PAYLAŞ
+        </p>
+
+        <h2>
+            Bir Anı Bırak ❤️
+        </h2>
+
+
+        <!-- SABİT FOTOĞRAF -->
+
+        <div class="featured-photo-wrapper">
+
+            <img
+                src="images/bizim-fotograf.jpg"
+                alt="Mert & Burçin"
+                class="featured-photo"
+                fetchpriority="high"
+                decoding="async"
+            >
+
+        </div>
+
+
+        <p>
+            Bizimle geçirdiğin güzel bir anıyı,
+            mesajı veya fotoğraf ve video paylaş.
+        </p>
+
+
+        <button
+            class="button"
+            type="button"
+            onclick="openMemoryForm()"
+        >
+            Anımı Bırak
+        </button>
+
+    </section>
+
+
+
+    <!-- ==================================================
          ANA SAYFA
     ================================================== -->
 
@@ -36,70 +83,26 @@
                 BİZİM HİKÂYEMİZ
             </p>
 
+
             <h1>
                 Mert & Burçin ❤️
             </h1>
 
+
             <p class="date">
                 13 Eylül 2026
             </p>
+
 
             <p class="description">
                 Birlikte yaşadığımız güzel anıları
                 burada biriktiriyoruz.
             </p>
 
-            <a
-                href="#galeri"
-                class="button"
-            >
-                Anılarımıza Bak
-            </a>
-
         </div>
 
     </section>
 
-<!-- ==================================================
-     ANI BIRAK
-================================================== -->
-
-<section class="message-section">
-
-    <p class="section-small-title">
-        SEN DE BİZİMLE PAYLAŞ
-    </p>
-
-    <h2>
-        Bir Anı Bırak ❤️
-    </h2>
-
-    <!-- SABİT FOTOĞRAF -->
-<div class="featured-photo-wrapper">
-    <img 
-        src="images/bizim-fotograf.jpg" 
-        alt="Mert & Burçin" 
-        class="featured-photo"
-        fetchpriority="high"
-        decoding="async"
-
-    >
-</div>
-
-    <p>
-        Bizimle geçirdiğin güzel bir anıyı,
-        mesajı veya fotoğraf ve video paylaş.
-    </p>
-
-    <button
-        class="button"
-        type="button"
-        onclick="openMemoryForm()"
-    >
-        Anımı Bırak
-    </button>
-
-</section>
 
 
     <!-- ==================================================
@@ -115,13 +118,16 @@
             ANILARIMIZ
         </p>
 
+
         <h2>
             Güzel Anılar
         </h2>
 
+
         <p class="section-description">
             Birlikte yaşadığımız güzel anlardan bazıları...
         </p>
+
 
 
         <!-- GALERİ KONTROLLERİ -->
@@ -139,9 +145,11 @@
                 &#10094;
             </button>
 
+
             <span id="gallery-counter">
                 1 / 1
             </span>
+
 
             <button
                 id="gallery-next"
@@ -152,6 +160,7 @@
             </button>
 
         </div>
+
 
 
         <!-- GALERİ -->
@@ -179,6 +188,7 @@
         onclick="closeLightbox(event)"
     >
 
+
         <button
             class="close-button"
             type="button"
@@ -186,6 +196,7 @@
         >
             &times;
         </button>
+
 
 
         <button
@@ -197,11 +208,13 @@
         </button>
 
 
+
         <img
             id="lightbox-image"
             src=""
             alt="Büyük fotoğraf"
         >
+
 
 
         <video
@@ -210,6 +223,8 @@
             playsinline
             style="display: none;"
         ></video>
+
+
 
         <button
             class="next-button"
@@ -244,13 +259,16 @@
             </button>
 
 
+
             <p class="section-small-title">
                 BİZİMLE PAYLAŞ
             </p>
 
+
             <h2>
                 Bir Anı Bırak ❤️
             </h2>
+
 
 
             <form
@@ -263,6 +281,7 @@
                     Adınız
                 </label>
 
+
                 <input
                     type="text"
                     id="name"
@@ -271,9 +290,11 @@
                 >
 
 
+
                 <label for="message">
                     Anınız / Mesajınız
                 </label>
+
 
                 <textarea
                     id="message"
@@ -283,9 +304,11 @@
                 ></textarea>
 
 
+
                 <label for="memory-photo">
                     Fotoğraf
                 </label>
+
 
                 <input
                     type="file"
@@ -295,11 +318,13 @@
                 >
 
 
+
                 <p class="file-info">
                     Fotoğraf veya video seçin.
                     Maksimum 10 MB.
                     Video maksimum 12 saniye olabilir.
                 </p>
+
 
 
                 <button
