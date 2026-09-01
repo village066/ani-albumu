@@ -1,8 +1,4 @@
-
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
     getFirestore,
@@ -13,83 +9,56 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-
 // ======================================================
 // FIREBASE
 // ======================================================
 
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyCIg18qZgVOtZzW0pBSEYg88WAsmzp53G0",
-
-    authDomain:
-        "ani-albumu.firebaseapp.com",
-
-    projectId:
-        "ani-albumu",
-
-    storageBucket:
-        "ani-albumu.firebasestorage.app",
-
-    messagingSenderId:
-        "118536956079",
-
-    appId:
-        "1:118536956079:web:af1583d69dd711bc5a8c5a",
-
-    measurementId:
-        "G-DM1LNLVMQ2"
-
+    apiKey: "AIzaSyCIg18qZgVOtZzW0pBSEYg88WAsmzp53G0",
+    authDomain: "ani-albumu.firebaseapp.com",
+    projectId: "ani-albumu",
+    storageBucket: "ani-albumu.firebasestorage.app",
+    messagingSenderId: "118536956079",
+    appId: "1:118536956079:web:af1583d69dd711bc5a8c5a",
+    measurementId: "G-DM1LNLVMQ2"
 };
 
-
-const app =
-    initializeApp(firebaseConfig);
-
-
-const db =
-    getFirestore(app);
-
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 
 // ======================================================
 // CLOUDINARY
 // ======================================================
 
-const CLOUD_NAME =
-    "uh6pc05a";
+const CLOUD_NAME = "uh6pc05a";
+const UPLOAD_PRESET = "ani_albumu";
 
 
-const UPLOAD_PRESET =
-    "ani_albumu";
+// ======================================================
+// AYARLAR
+// ======================================================
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+// Video maksimum 12 saniye
+const MAX_VIDEO_DURATION = 12;
 
 
 // ======================================================
 // GALERİ
 // ======================================================
 
-const gallery =
-    document.getElementById("gallery");
-
+const gallery = document.getElementById("gallery");
 
 let photos = [];
-
 let memories = [];
 
 let currentPhoto = 0;
 
-
-// Bilgisayarda aynı anda 3 anı
-
 const cardsPerPage = 3;
 
-
-// Bilgisayardaki mevcut sayfa
-
 let currentPage = 0;
-
 
 
 // ======================================================
@@ -99,17 +68,12 @@ let currentPage = 0;
 function formatDate(timestamp) {
 
     if (!timestamp) {
-
         return "Yeni anı";
-
     }
-
 
     try {
 
-        const date =
-            timestamp.toDate();
-
+        const date = timestamp.toDate();
 
         return date.toLocaleDateString(
             "tr-TR",
@@ -125,9 +89,7 @@ function formatDate(timestamp) {
         return "Yeni anı";
 
     }
-
 }
-
 
 
 // ======================================================
@@ -138,56 +100,34 @@ async function loadMemories() {
 
     try {
 
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "anilar"
-                )
-            );
-
-
-        memories = [];
-
-        photos = [];
-
-
-        snapshot.forEach(
-            (doc) => {
-
-                const memory =
-                    doc.data();
-
-
-                if (
-                    !memory.photoUrl
-                ) {
-
-                    return;
-
-                }
-
-
-                memories.push(
-                    memory
-                );
-
-
-                photos.push(
-                    memory.photoUrl
-                );
-
-            }
+        const snapshot = await getDocs(
+            collection(db, "anilar")
         );
 
+        memories = [];
+        photos = [];
+
+        snapshot.forEach((doc) => {
+
+            const memory = doc.data();
+
+            if (!memory.photoUrl) {
+                return;
+            }
+
+            memories.push(memory);
+
+            photos.push({
+                url: memory.photoUrl,
+                type: memory.type || "image"
+            });
+
+        });
 
         currentPage = 0;
-
         currentPhoto = 0;
 
-
         renderGallery();
-
 
     } catch (error) {
 
@@ -195,7 +135,6 @@ async function loadMemories() {
             "Anılar yüklenirken hata:",
             error
         );
-
 
         gallery.innerHTML = `
             <p>
@@ -208,7 +147,6 @@ async function loadMemories() {
 }
 
 
-
 // ======================================================
 // GALERİYİ OLUŞTUR
 // ======================================================
@@ -217,10 +155,7 @@ function renderGallery() {
 
     gallery.innerHTML = "";
 
-
-    if (
-        memories.length === 0
-    ) {
+    if (memories.length === 0) {
 
         gallery.innerHTML = `
             <p>
@@ -228,29 +163,19 @@ function renderGallery() {
             </p>
         `;
 
-
         updateGalleryControls();
 
-
         return;
-
     }
 
 
-
-    // ==================================================
     // TELEFON
-    // ==================================================
+    // Tüm anılar yatay kaydırılır
 
-    if (
-        window.innerWidth <= 700
-    ) {
+    if (window.innerWidth <= 700) {
 
         memories.forEach(
-            (
-                memory,
-                index
-            ) => {
+            (memory, index) => {
 
                 createMemoryCard(
                     memory,
@@ -262,41 +187,25 @@ function renderGallery() {
 
     }
 
-
-
-    // ==================================================
     // BİLGİSAYAR
-    // ==================================================
+    // Aynı anda 3 anı
 
     else {
 
         const start =
-            currentPage *
-            cardsPerPage;
-
+            currentPage * cardsPerPage;
 
         const end =
-            start +
-            cardsPerPage;
-
+            start + cardsPerPage;
 
         const pageMemories =
-            memories.slice(
-                start,
-                end
-            );
-
+            memories.slice(start, end);
 
         pageMemories.forEach(
-            (
-                memory,
-                localIndex
-            ) => {
+            (memory, localIndex) => {
 
                 const realIndex =
-                    start +
-                    localIndex;
-
+                    start + localIndex;
 
                 createMemoryCard(
                     memory,
@@ -308,15 +217,13 @@ function renderGallery() {
 
     }
 
-
     updateGalleryControls();
 
 }
 
 
-
 // ======================================================
-// ANI KARTI OLUŞTUR
+// ANI KARTI
 // ======================================================
 
 function createMemoryCard(
@@ -325,10 +232,7 @@ function createMemoryCard(
 ) {
 
     const card =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     card.className =
         "photo-card";
@@ -344,39 +248,96 @@ function createMemoryCard(
         "";
 
 
-    card.innerHTML = `
+    const mediaType =
+        memory.type || "image";
 
-        <img
-            src="${memory.photoUrl}"
-            alt="${safeName}"
-            onclick="openLightbox(${index})"
-        >
 
-        <div class="memory-info">
+    // ==================================================
+    // FOTOĞRAF
+    // ==================================================
 
-            <h3>
-                ❤️ ${safeName}
-            </h3>
+    if (mediaType === "image") {
 
-            <p>
-                ${safeMessage}
-            </p>
+        card.innerHTML = `
 
-            <div class="memory-date">
-                ${formatDate(memory.createdAt)}
+            <img
+                src="${memory.photoUrl}"
+                alt="${safeName}"
+                onclick="openLightbox(${index})"
+            >
+
+            <div class="memory-info">
+
+                <h3>
+                    ❤️ ${safeName}
+                </h3>
+
+                <p>
+                    ${safeMessage}
+                </p>
+
+                <div class="memory-date">
+                    ${formatDate(memory.createdAt)}
+                </div>
+
             </div>
 
-        </div>
+        `;
 
-    `;
+    }
 
 
-    gallery.appendChild(
-        card
-    );
+    // ==================================================
+    // VİDEO
+    // ==================================================
+
+    else if (mediaType === "video") {
+
+        card.innerHTML = `
+
+            <div
+                class="video-wrapper"
+                onclick="openLightbox(${index})"
+            >
+
+                <video
+                    src="${memory.photoUrl}"
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                ></video>
+
+                <div class="video-play">
+                    ▶
+                </div>
+
+            </div>
+
+            <div class="memory-info">
+
+                <h3>
+                    ❤️ ${safeName}
+                </h3>
+
+                <p>
+                    ${safeMessage}
+                </p>
+
+                <div class="memory-date">
+                    ${formatDate(memory.createdAt)}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    gallery.appendChild(card);
 
 }
-
 
 
 // ======================================================
@@ -385,10 +346,102 @@ function createMemoryCard(
 
 function updateGalleryControls() {
 
-    const controls =
+    let controls =
         document.getElementById(
             "gallery-controls"
         );
+
+
+    if (!controls) {
+
+        controls =
+            document.createElement("div");
+
+        controls.id =
+            "gallery-controls";
+
+        controls.className =
+            "gallery-controls";
+
+
+        const section =
+            document.querySelector(
+                ".gallery-section"
+            );
+
+
+        if (section) {
+
+            section.insertBefore(
+                controls,
+                gallery
+            );
+
+        }
+
+    }
+
+
+    // Telefonda gizle
+
+    if (window.innerWidth <= 700) {
+
+        controls.innerHTML = "";
+
+        controls.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    controls.style.display =
+        "flex";
+
+
+    const totalPages =
+        Math.ceil(
+            memories.length /
+            cardsPerPage
+        );
+
+
+    if (totalPages <= 1) {
+
+        controls.innerHTML = "";
+
+        controls.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    controls.innerHTML = `
+
+        <button
+            id="gallery-prev"
+            class="gallery-arrow"
+            type="button"
+        >
+            &#10094;
+        </button>
+
+        <span id="gallery-counter">
+            ${currentPage + 1} / ${totalPages}
+        </span>
+
+        <button
+            id="gallery-next"
+            class="gallery-arrow"
+            type="button"
+        >
+            &#10095;
+        </button>
+
+    `;
 
 
     const previousButton =
@@ -403,104 +456,32 @@ function updateGalleryControls() {
         );
 
 
-    const counter =
-        document.getElementById(
-            "gallery-counter"
-        );
-
-
-    if (
-        !controls ||
-        !previousButton ||
-        !nextButton ||
-        !counter
-    ) {
-
-        return;
-
-    }
-
-
-
-    // TELEFONDA KONTROLLER GİZLİ
-
-    if (
-        window.innerWidth <= 700
-    ) {
-
-        controls.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-
-    // TOPLAM SAYFA
-
-    const totalPages =
-        Math.ceil(
-            memories.length /
-            cardsPerPage
-        );
-
-
-
-    // Tek sayfa varsa gizle
-
-    if (
-        totalPages <= 1
-    ) {
-
-        controls.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-
-    // Kontrolleri göster
-
-    controls.style.display =
-        "flex";
-
-
-
-    // Sayaç
-
-    counter.textContent =
-        `${currentPage + 1} / ${totalPages}`;
-
-
-
-    // Önceki
-
-    previousButton.disabled =
-        currentPage === 0;
-
-
-    // Sonraki
-
-    nextButton.disabled =
-        currentPage >=
-        totalPages - 1;
-
-
-
-    // Buton olayları
-
     previousButton.onclick =
         previousGalleryPage;
-
 
     nextButton.onclick =
         nextGalleryPage;
 
-}
 
+    if (currentPage === 0) {
+
+        previousButton.disabled =
+            true;
+
+    }
+
+
+    if (
+        currentPage >=
+        totalPages - 1
+    ) {
+
+        nextButton.disabled =
+            true;
+
+    }
+
+}
 
 
 // ======================================================
@@ -509,22 +490,15 @@ function updateGalleryControls() {
 
 function previousGalleryPage() {
 
-    if (
-        currentPage <= 0
-    ) {
-
+    if (currentPage <= 0) {
         return;
-
     }
 
-
     currentPage--;
-
 
     renderGallery();
 
 }
-
 
 
 // ======================================================
@@ -552,30 +526,23 @@ function nextGalleryPage() {
 
     currentPage++;
 
-
     renderGallery();
 
 }
 
 
-
 // ======================================================
-// FOTOĞRAFI BÜYÜT
+// LIGHTBOX AÇ
 // ======================================================
 
 function openLightbox(index) {
 
-    if (
-        !photos[index]
-    ) {
-
+    if (!photos[index]) {
         return;
-
     }
 
 
-    currentPhoto =
-        index;
+    currentPhoto = index;
 
 
     const lightbox =
@@ -590,8 +557,55 @@ function openLightbox(index) {
         );
 
 
-    image.src =
+    const video =
+        document.getElementById(
+            "lightbox-video"
+        );
+
+
+    const selected =
         photos[currentPhoto];
+
+
+    // Önce ikisini de gizle
+
+    image.style.display =
+        "none";
+
+    video.style.display =
+        "none";
+
+    video.pause();
+
+
+    // FOTOĞRAF
+
+    if (selected.type === "image") {
+
+        image.src =
+            selected.url;
+
+        image.style.display =
+            "block";
+
+    }
+
+
+    // VİDEO
+
+    else if (selected.type === "video") {
+
+        video.src =
+            selected.url;
+
+        video.style.display =
+            "block";
+
+        video.currentTime = 0;
+
+        video.play().catch(() => {});
+
+    }
 
 
     lightbox.classList.add(
@@ -601,28 +615,36 @@ function openLightbox(index) {
 }
 
 
-
 // ======================================================
-// FOTOĞRAFI KAPAT
+// LIGHTBOX KAPAT
 // ======================================================
 
 function closeLightbox(event) {
 
     if (
         event &&
-        event.target !==
-        event.currentTarget
+        event.target !== event.currentTarget
     ) {
 
         return;
+    }
+
+
+    const video =
+        document.getElementById(
+            "lightbox-video"
+        );
+
+
+    if (video) {
+
+        video.pause();
 
     }
 
 
     document
-        .getElementById(
-            "lightbox"
-        )
+        .getElementById("lightbox")
         .classList.remove(
             "active"
         );
@@ -630,26 +652,19 @@ function closeLightbox(event) {
 }
 
 
-
 // ======================================================
-// SONRAKİ FOTOĞRAF
+// SONRAKİ FOTOĞRAF / VİDEO
 // ======================================================
 
 function nextPhoto(event) {
 
     if (event) {
-
         event.stopPropagation();
-
     }
 
 
-    if (
-        photos.length === 0
-    ) {
-
+    if (photos.length === 0) {
         return;
-
     }
 
 
@@ -666,45 +681,31 @@ function nextPhoto(event) {
     }
 
 
-    document
-        .getElementById(
-            "lightbox-image"
-        )
-        .src =
-        photos[currentPhoto];
+    showCurrentMedia();
 
 }
 
 
-
 // ======================================================
-// ÖNCEKİ FOTOĞRAF
+// ÖNCEKİ FOTOĞRAF / VİDEO
 // ======================================================
 
 function previousPhoto(event) {
 
     if (event) {
-
         event.stopPropagation();
-
     }
 
 
-    if (
-        photos.length === 0
-    ) {
-
+    if (photos.length === 0) {
         return;
-
     }
 
 
     currentPhoto--;
 
 
-    if (
-        currentPhoto < 0
-    ) {
+    if (currentPhoto < 0) {
 
         currentPhoto =
             photos.length - 1;
@@ -712,15 +713,74 @@ function previousPhoto(event) {
     }
 
 
-    document
-        .getElementById(
-            "lightbox-image"
-        )
-        .src =
-        photos[currentPhoto];
+    showCurrentMedia();
 
 }
 
+
+// ======================================================
+// MEVCUT MEDYAYI GÖSTER
+// ======================================================
+
+function showCurrentMedia() {
+
+    const image =
+        document.getElementById(
+            "lightbox-image"
+        );
+
+
+    const video =
+        document.getElementById(
+            "lightbox-video"
+        );
+
+
+    const selected =
+        photos[currentPhoto];
+
+
+    image.style.display =
+        "none";
+
+    video.style.display =
+        "none";
+
+    video.pause();
+
+
+    if (
+        selected.type ===
+        "image"
+    ) {
+
+        image.src =
+            selected.url;
+
+        image.style.display =
+            "block";
+
+    }
+
+
+    else if (
+        selected.type ===
+        "video"
+    ) {
+
+        video.src =
+            selected.url;
+
+        video.style.display =
+            "block";
+
+        video.currentTime = 0;
+
+        video.play().catch(() => {});
+
+    }
+
+}
 
 
 // ======================================================
@@ -753,7 +813,6 @@ function openMemoryForm() {
 }
 
 
-
 // ======================================================
 // ANI FORMUNU KAPAT
 // ======================================================
@@ -767,9 +826,7 @@ function closeMemoryForm() {
 
 
     if (!modal) {
-
         return;
-
     }
 
 
@@ -780,15 +837,26 @@ function closeMemoryForm() {
 }
 
 
-
 // ======================================================
-// CLOUDINARY FOTOĞRAF YÜKLE
+// CLOUDINARY YÜKLEME
 // ======================================================
 
 async function uploadPhoto(file) {
 
+    const isVideo =
+        file.type.startsWith(
+            "video/"
+        );
+
+
+    const resourceType =
+        isVideo
+            ? "video"
+            : "image";
+
+
     const url =
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`;
 
 
     const formData =
@@ -817,22 +885,18 @@ async function uploadPhoto(file) {
         );
 
 
-    if (
-        !response.ok
-    ) {
+    if (!response.ok) {
 
         const errorText =
             await response.text();
-
 
         console.error(
             "Cloudinary hatası:",
             errorText
         );
 
-
         throw new Error(
-            "Fotoğraf yüklenemedi."
+            "Dosya yüklenemedi."
         );
 
     }
@@ -842,12 +906,10 @@ async function uploadPhoto(file) {
         await response.json();
 
 
-    if (
-        !data.secure_url
-    ) {
+    if (!data.secure_url) {
 
         throw new Error(
-            "Cloudinary fotoğraf adresi döndürmedi."
+            "Cloudinary dosya adresi döndürmedi."
         );
 
     }
@@ -857,6 +919,85 @@ async function uploadPhoto(file) {
 
 }
 
+
+// ======================================================
+// VİDEO SÜRESİNİ KONTROL ET
+// ======================================================
+
+function checkVideoDuration(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const video =
+                document.createElement(
+                    "video"
+                );
+
+
+            const url =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            video.preload =
+                "metadata";
+
+
+            video.onloadedmetadata =
+                function() {
+
+                    URL.revokeObjectURL(
+                        url
+                    );
+
+
+                    if (
+                        video.duration >
+                        MAX_VIDEO_DURATION
+                    ) {
+
+                        reject(
+                            new Error(
+                                "Video en fazla 12 saniye olabilir."
+                            )
+                        );
+
+                        return;
+
+                    }
+
+
+                    resolve();
+
+                };
+
+
+            video.onerror =
+                function() {
+
+                    URL.revokeObjectURL(
+                        url
+                    );
+
+
+                    reject(
+                        new Error(
+                            "Video süresi okunamadı."
+                        )
+                    );
+
+                };
+
+
+            video.src =
+                url;
+
+        }
+    );
+
+}
 
 
 // ======================================================
@@ -930,21 +1071,25 @@ async function submitMemory(event) {
     if (!file) {
 
         alert(
-            "Lütfen bir fotoğraf seçin."
+            "Lütfen bir fotoğraf veya video seçin."
         );
 
         return;
 
     }
 
+
+    // ==================================================
+    // DOSYA BOYUTU
+    // ==================================================
 
     if (
         file.size >
-        5 * 1024 * 1024
+        MAX_FILE_SIZE
     ) {
 
         alert(
-            "Fotoğraf en fazla 5 MB olabilir."
+            "Fotoğraf veya video en fazla 10 MB olabilir."
         );
 
         return;
@@ -952,17 +1097,57 @@ async function submitMemory(event) {
     }
 
 
-    if (
-        !file.type.startsWith(
+    // ==================================================
+    // DOSYA TÜRÜ
+    // ==================================================
+
+    const isImage =
+        file.type.startsWith(
             "image/"
-        )
+        );
+
+
+    const isVideo =
+        file.type.startsWith(
+            "video/"
+        );
+
+
+    if (
+        !isImage &&
+        !isVideo
     ) {
 
         alert(
-            "Lütfen sadece fotoğraf seçin."
+            "Lütfen sadece fotoğraf veya video seçin."
         );
 
         return;
+
+    }
+
+
+    // ==================================================
+    // VİDEO SÜRESİ
+    // ==================================================
+
+    if (isVideo) {
+
+        try {
+
+            await checkVideoDuration(
+                file
+            );
+
+        } catch (error) {
+
+            alert(
+                error.message
+            );
+
+            return;
+
+        }
 
     }
 
@@ -990,11 +1175,14 @@ async function submitMemory(event) {
 
     try {
 
-
-        // FOTOĞRAF YÜKLE
+        // ==================================================
+        // YÜKLEME
+        // ==================================================
 
         submitButton.textContent =
-            "Fotoğraf yükleniyor...";
+            isVideo
+                ? "Video yükleniyor..."
+                : "Fotoğraf yükleniyor...";
 
 
         const photoUrl =
@@ -1003,8 +1191,9 @@ async function submitMemory(event) {
             );
 
 
-
-        // FIRESTORE'A KAYDET
+        // ==================================================
+        // FIRESTORE
+        // ==================================================
 
         submitButton.textContent =
             "Anı kaydediliyor...";
@@ -1016,25 +1205,20 @@ async function submitMemory(event) {
                 "anilar"
             ),
             {
+                name: name,
+                message: message,
+                photoUrl: photoUrl,
 
-                name:
-                    name,
-
-                message:
-                    message,
-
-                photoUrl:
-                    photoUrl,
+                type:
+                    isVideo
+                        ? "video"
+                        : "image",
 
                 createdAt:
                     serverTimestamp()
-
             }
         );
 
-
-
-        // BAŞARILI
 
         alert(
             "Anınız başarıyla gönderildi! ❤️"
@@ -1081,7 +1265,6 @@ async function submitMemory(event) {
 }
 
 
-
 // ======================================================
 // ESC TUŞU
 // ======================================================
@@ -1089,7 +1272,6 @@ async function submitMemory(event) {
 document.addEventListener(
     "keydown",
     function(event) {
-
 
         const lightbox =
             document.getElementById(
@@ -1103,9 +1285,6 @@ document.addEventListener(
             );
 
 
-
-        // ESC - LIGHTBOX
-
         if (
             event.key === "Escape" &&
             lightbox &&
@@ -1114,15 +1293,10 @@ document.addEventListener(
             )
         ) {
 
-            lightbox.classList.remove(
-                "active"
-            );
+            closeLightbox();
 
         }
 
-
-
-        // ESC - FORM
 
         if (
             event.key === "Escape" &&
@@ -1137,9 +1311,6 @@ document.addEventListener(
         }
 
 
-
-        // SAĞ OK
-
         if (
             event.key === "ArrowRight" &&
             lightbox &&
@@ -1152,9 +1323,6 @@ document.addEventListener(
 
         }
 
-
-
-        // SOL OK
 
         if (
             event.key === "ArrowLeft" &&
@@ -1172,9 +1340,8 @@ document.addEventListener(
 );
 
 
-
 // ======================================================
-// EKRAN BOYUTU DEĞİŞİNCE
+// EKRAN BOYUTU
 // ======================================================
 
 window.addEventListener(
@@ -1187,9 +1354,8 @@ window.addEventListener(
 );
 
 
-
 // ======================================================
-// HTML BUTONLARINA ERİŞİM
+// HTML BUTONLARI
 // ======================================================
 
 window.openLightbox =
@@ -1214,9 +1380,8 @@ window.submitMemory =
     submitMemory;
 
 
-
 // ======================================================
-// SAYFA AÇILINCA ANILARI GETİR
+// SAYFA AÇILINCA
 // ======================================================
 
 loadMemories();
