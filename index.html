@@ -60,6 +60,43 @@
 
     </section>
 
+<!-- ==================================================
+     ANI BIRAK
+================================================== -->
+
+<section class="message-section">
+
+    <p class="section-small-title">
+        SEN DE BİZİMLE PAYLAŞ
+    </p>
+
+    <h2>
+        Bir Anı Bırak ❤️
+    </h2>
+
+    <!-- SABİT FOTOĞRAF -->
+<div class="featured-photo-wrapper">
+    <img 
+        src="images/bizim-fotograf.JPG" 
+        alt="Mert & Burçin" 
+        class="featured-photo"
+    >
+</div>
+
+    <p>
+        Bizimle geçirdiğin güzel bir anıyı,
+        mesajı veya fotoğraf ve video paylaş.
+    </p>
+
+    <button
+        class="button"
+        type="button"
+        onclick="openMemoryForm()"
+    >
+        Anımı Bırak
+    </button>
+
+</section>
 
 
     <!-- ==================================================
@@ -164,6 +201,13 @@
         >
 
 
+        <video
+            id="lightbox-video"
+            controls
+            playsinline
+            style="display: none;"
+        ></video>
+
         <button
             class="next-button"
             type="button"
@@ -173,37 +217,6 @@
         </button>
 
     </div>
-
-
-
-    <!-- ==================================================
-         ANI BIRAK
-    ================================================== -->
-
-    <section class="message-section">
-
-        <p class="section-small-title">
-            SEN DE BİZİMLE PAYLAŞ
-        </p>
-
-        <h2>
-            Bir Anı Bırak ❤️
-        </h2>
-
-        <p>
-            Bizimle geçirdiğin güzel bir anıyı,
-            mesajı veya fotoğrafı paylaş.
-        </p>
-
-        <button
-            class="button"
-            type="button"
-            onclick="openMemoryForm()"
-        >
-            Anımı Bırak
-        </button>
-
-    </section>
 
 
 
@@ -274,14 +287,15 @@
                 <input
                     type="file"
                     id="memory-photo"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     required
                 >
 
 
                 <p class="file-info">
-                    Fotoğrafınızı seçin.
-                    Maksimum 5 MB.
+                    Fotoğraf veya video seçin.
+                    Maksimum 10 MB.
+                    Video maksimum 12 saniye olabilir.
                 </p>
 
 
