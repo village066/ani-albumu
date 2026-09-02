@@ -39,11 +39,14 @@ const UPLOAD_PRESET = "ani_albumu";
 // AYARLAR
 // ======================================================
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+// FOTOĞRAF maksimum 10 MB
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
 
-// Video maksimum 12 saniye
-const MAX_VIDEO_DURATION = 12;
+// VİDEO maksimum 50 MB
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024;
 
+// Video maksimum 30 saniye
+const MAX_VIDEO_DURATION = 30;
 
 // ======================================================
 // GALERİ
@@ -960,7 +963,7 @@ function checkVideoDuration(file) {
 
                         reject(
                             new Error(
-                                "Video en fazla 12 saniye olabilir."
+                                "Video en fazla 30 saniye olabilir."
                             )
                         );
 
@@ -1008,50 +1011,72 @@ async function submitMemory(event) {
 
     event.preventDefault();
 
-
     const nameInput =
-        document.getElementById(
-            "name"
-        );
-
+        document.getElementById("name");
 
     const messageInput =
-        document.getElementById(
-            "message"
-        );
-
+        document.getElementById("message");
 
     const photoInput =
-        document.getElementById(
-            "memory-photo"
-        );
+        document.getElementById("memory-photo");
+
+    const videoInput =
+        document.getElementById("memory-video");
 
 
     if (
         !nameInput ||
         !messageInput ||
-        !photoInput
+        !photoInput ||
+        !videoInput
     ) {
 
-        alert(
-            "Form alanları bulunamadı."
-        );
+        alert("Form alanları bulunamadı.");
 
         return;
-
     }
 
 
     const name =
         nameInput.value.trim();
 
-
     const message =
         messageInput.value.trim();
 
 
-    const file =
+    // ==================================================
+    // FOTOĞRAF / VİDEO SEÇİMİ
+    // ==================================================
+
+    const photoFile =
         photoInput.files[0];
+
+    const videoFile =
+        videoInput.files[0];
+
+
+    if (!photoFile && !videoFile) {
+
+        alert(
+            "Lütfen bir fotoğraf veya video seçin."
+        );
+
+        return;
+    }
+
+
+    // İkisi birden seçildiyse sadece son seçileni kullan
+    let file;
+
+    if (videoFile) {
+
+        file = videoFile;
+
+    } else {
+
+        file = photoFile;
+
+    }
 
 
     if (
@@ -1064,36 +1089,6 @@ async function submitMemory(event) {
         );
 
         return;
-
-    }
-
-
-    if (!file) {
-
-        alert(
-            "Lütfen bir fotoğraf veya video seçin."
-        );
-
-        return;
-
-    }
-
-
-    // ==================================================
-    // DOSYA BOYUTU
-    // ==================================================
-
-    if (
-        file.size >
-        MAX_FILE_SIZE
-    ) {
-
-        alert(
-            "Fotoğraf veya video en fazla 10 MB olabilir."
-        );
-
-        return;
-
     }
 
 
@@ -1102,15 +1097,10 @@ async function submitMemory(event) {
     // ==================================================
 
     const isImage =
-        file.type.startsWith(
-            "image/"
-        );
-
+        file.type.startsWith("image/");
 
     const isVideo =
-        file.type.startsWith(
-            "video/"
-        );
+        file.type.startsWith("video/");
 
 
     if (
@@ -1123,7 +1113,28 @@ async function submitMemory(event) {
         );
 
         return;
+    }
 
+
+    // ==================================================
+    // DOSYA BOYUTU
+    // ==================================================
+
+    const maxSize =
+        isVideo
+            ? MAX_VIDEO_SIZE
+            : MAX_IMAGE_SIZE;
+
+
+    if (file.size > maxSize) {
+
+        alert(
+            isVideo
+                ? "Video 50 MB'dan büyük olamaz."
+                : "Fotoğraf 10 MB'dan büyük olamaz."
+        );
+
+        return;
     }
 
 
@@ -1135,22 +1146,20 @@ async function submitMemory(event) {
 
         try {
 
-            await checkVideoDuration(
-                file
-            );
+            await checkVideoDuration(file);
 
         } catch (error) {
 
-            alert(
-                error.message
-            );
+            alert(error.message);
 
             return;
-
         }
-
     }
 
+
+    // ==================================================
+    // GÖNDER BUTONU
+    // ==================================================
 
     const submitButton =
         document.querySelector(
@@ -1165,18 +1174,16 @@ async function submitMemory(event) {
         );
 
         return;
-
     }
 
 
-    submitButton.disabled =
-        true;
+    submitButton.disabled = true;
 
 
     try {
 
         // ==================================================
-        // YÜKLEME
+        // CLOUDINARY YÜKLEME
         // ==================================================
 
         submitButton.textContent =
@@ -1186,9 +1193,7 @@ async function submitMemory(event) {
 
 
         const photoUrl =
-            await uploadPhoto(
-                file
-            );
+            await uploadPhoto(file);
 
 
         // ==================================================
@@ -1200,10 +1205,7 @@ async function submitMemory(event) {
 
 
         await addDoc(
-            collection(
-                db,
-                "anilar"
-            ),
+            collection(db, "anilar"),
             {
                 name: name,
                 message: message,
@@ -1220,15 +1222,17 @@ async function submitMemory(event) {
         );
 
 
+        // ==================================================
+        // BAŞARILI
+        // ==================================================
+
         alert(
             "Anınız başarıyla gönderildi! ❤️"
         );
 
 
         document
-            .getElementById(
-                "memory-form"
-            )
+            .getElementById("memory-form")
             .reset();
 
 
@@ -1255,15 +1259,11 @@ async function submitMemory(event) {
     }
 
 
-    submitButton.disabled =
-        false;
-
+    submitButton.disabled = false;
 
     submitButton.textContent =
         "Anımı Gönder ❤️";
-
 }
-
 
 // ======================================================
 // ESC TUŞU
