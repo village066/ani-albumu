@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -179,7 +180,7 @@
 
 
     <!-- ==================================================
-         FOTOĞRAF BÜYÜTME
+         FOTOĞRAF / VİDEO BÜYÜTME
     ================================================== -->
 
     <div
@@ -305,24 +306,54 @@
 
 
 
-                <label for="memory-photo">
-                    Fotoğraf
-                </label>
+                <!-- ==================================================
+                     FOTOĞRAF / VİDEO SEÇİMİ
+                ================================================== -->
+
+                <div class="media-upload-options">
 
 
-                <input
-                    type="file"
-                    id="memory-photo"
-                    accept="image/*,video/*"
-                    required
-                >
+                    <!-- FOTOĞRAF -->
 
+                    <div class="media-upload-option">
+
+                        <label for="memory-photo">
+                            📷 Fotoğraf Çek / Seç
+                        </label>
+
+                        <input
+                            type="file"
+                            id="memory-photo"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+
+
+                    <!-- VİDEO -->
+
+                    <div class="media-upload-option">
+
+                        <label for="memory-video">
+                            🎥 Video Çek / Seç
+                        </label>
+
+                        <input
+                            type="file"
+                            id="memory-video"
+                            accept="video/*"
+                        >
+
+                    </div>
+
+
+                </div>
 
 
                 <p class="file-info">
-                    Fotoğraf veya video seçin.
-                    Maksimum 10 MB.
-                    Video maksimum 12 saniye olabilir.
+                    Fotoğraf maksimum 10 MB.
+                    Video maksimum 50 MB ve 30 saniye olabilir.
                 </p>
 
 
