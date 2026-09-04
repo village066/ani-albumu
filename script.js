@@ -1011,72 +1011,74 @@ async function submitMemory(event) {
 
     event.preventDefault();
 
+
+    // ==================================================
+    // FORM ALANLARI
+    // ==================================================
+
     const nameInput =
         document.getElementById("name");
 
     const messageInput =
         document.getElementById("message");
 
-    const photoInput =
-        document.getElementById("memory-photo");
 
-    const videoInput =
-        document.getElementById("memory-video");
+    // ==================================================
+    // FOTOĞRAF INPUTLARI
+    // ==================================================
+
+    const photoCameraInput =
+        document.getElementById(
+            "memory-photo-camera"
+        );
+
+    const photoGalleryInput =
+        document.getElementById(
+            "memory-photo-gallery"
+        );
+
+
+    // ==================================================
+    // VİDEO INPUTLARI
+    // ==================================================
+
+    const videoCameraInput =
+        document.getElementById(
+            "memory-video-camera"
+        );
+
+    const videoGalleryInput =
+        document.getElementById(
+            "memory-video-gallery"
+        );
 
 
     if (
         !nameInput ||
         !messageInput ||
-        !photoInput ||
-        !videoInput
+        !photoCameraInput ||
+        !photoGalleryInput ||
+        !videoCameraInput ||
+        !videoGalleryInput
     ) {
 
-        alert("Form alanları bulunamadı.");
-
-        return;
-    }
-
-
-    const name =
-        nameInput.value.trim();
-
-    const message =
-        messageInput.value.trim();
-
-
-    // ==================================================
-    // FOTOĞRAF / VİDEO SEÇİMİ
-    // ==================================================
-
-    const photoFile =
-        photoInput.files[0];
-
-    const videoFile =
-        videoInput.files[0];
-
-
-    if (!photoFile && !videoFile) {
-
         alert(
-            "Lütfen bir fotoğraf veya video seçin."
+            "Form alanları bulunamadı."
         );
 
         return;
     }
 
 
-    // İkisi birden seçildiyse sadece son seçileni kullan
-    let file;
+    // ==================================================
+    // AD / MESAJ
+    // ==================================================
 
-    if (videoFile) {
+    const name =
+        nameInput.value.trim();
 
-        file = videoFile;
-
-    } else {
-
-        file = photoFile;
-
-    }
+    const message =
+        messageInput.value.trim();
 
 
     if (
@@ -1086,6 +1088,71 @@ async function submitMemory(event) {
 
         alert(
             "Lütfen adınızı ve anınızı yazın."
+        );
+
+        return;
+    }
+
+
+    // ==================================================
+    // SEÇİLEN DOSYAYI BUL
+    // ==================================================
+
+    let file = null;
+
+
+    // Fotoğraf kameradan
+    if (
+        photoCameraInput.files &&
+        photoCameraInput.files.length > 0
+    ) {
+
+        file =
+            photoCameraInput.files[0];
+
+    }
+
+
+    // Fotoğraf galeriden
+    else if (
+        photoGalleryInput.files &&
+        photoGalleryInput.files.length > 0
+    ) {
+
+        file =
+            photoGalleryInput.files[0];
+
+    }
+
+
+    // Video kameradan
+    else if (
+        videoCameraInput.files &&
+        videoCameraInput.files.length > 0
+    ) {
+
+        file =
+            videoCameraInput.files[0];
+
+    }
+
+
+    // Video galeriden
+    else if (
+        videoGalleryInput.files &&
+        videoGalleryInput.files.length > 0
+    ) {
+
+        file =
+            videoGalleryInput.files[0];
+
+    }
+
+
+    if (!file) {
+
+        alert(
+            "Lütfen bir fotoğraf veya video seçin."
         );
 
         return;
@@ -1150,7 +1217,9 @@ async function submitMemory(event) {
 
         } catch (error) {
 
-            alert(error.message);
+            alert(
+                error.message
+            );
 
             return;
         }
@@ -1177,13 +1246,14 @@ async function submitMemory(event) {
     }
 
 
-    submitButton.disabled = true;
+    submitButton.disabled =
+        true;
 
 
     try {
 
         // ==================================================
-        // CLOUDINARY YÜKLEME
+        // CLOUDINARY
         // ==================================================
 
         submitButton.textContent =
@@ -1205,11 +1275,20 @@ async function submitMemory(event) {
 
 
         await addDoc(
-            collection(db, "anilar"),
+            collection(
+                db,
+                "anilar"
+            ),
             {
-                name: name,
-                message: message,
-                photoUrl: photoUrl,
+
+                name:
+                    name,
+
+                message:
+                    message,
+
+                photoUrl:
+                    photoUrl,
 
                 type:
                     isVideo
@@ -1218,6 +1297,7 @@ async function submitMemory(event) {
 
                 createdAt:
                     serverTimestamp()
+
             }
         );
 
@@ -1232,7 +1312,9 @@ async function submitMemory(event) {
 
 
         document
-            .getElementById("memory-form")
+            .getElementById(
+                "memory-form"
+            )
             .reset();
 
 
@@ -1259,10 +1341,13 @@ async function submitMemory(event) {
     }
 
 
-    submitButton.disabled = false;
+    submitButton.disabled =
+        false;
+
 
     submitButton.textContent =
         "Anımı Gönder ❤️";
+
 }
 
 // ======================================================
@@ -1378,6 +1463,123 @@ window.closeMemoryForm =
 
 window.submitMemory =
     submitMemory;
+
+
+// ======================================================
+// FOTOĞRAF / VİDEO SEÇİM KONTROLÜ
+// ======================================================
+
+const photoCameraInput =
+    document.getElementById(
+        "memory-photo-camera"
+    );
+
+const photoGalleryInput =
+    document.getElementById(
+        "memory-photo-gallery"
+    );
+
+const videoCameraInput =
+    document.getElementById(
+        "memory-video-camera"
+    );
+
+const videoGalleryInput =
+    document.getElementById(
+        "memory-video-gallery"
+    );
+
+
+// Fotoğraf kameradan seçilirse
+if (photoCameraInput) {
+
+    photoCameraInput.addEventListener(
+        "change",
+        function() {
+
+            if (
+                photoCameraInput.files.length > 0
+            ) {
+
+                photoGalleryInput.value = "";
+                videoCameraInput.value = "";
+                videoGalleryInput.value = "";
+
+            }
+
+        }
+    );
+
+}
+
+
+// Fotoğraf galeriden seçilirse
+if (photoGalleryInput) {
+
+    photoGalleryInput.addEventListener(
+        "change",
+        function() {
+
+            if (
+                photoGalleryInput.files.length > 0
+            ) {
+
+                photoCameraInput.value = "";
+                videoCameraInput.value = "";
+                videoGalleryInput.value = "";
+
+            }
+
+        }
+    );
+
+}
+
+
+// Video kameradan seçilirse
+if (videoCameraInput) {
+
+    videoCameraInput.addEventListener(
+        "change",
+        function() {
+
+            if (
+                videoCameraInput.files.length > 0
+            ) {
+
+                photoCameraInput.value = "";
+                photoGalleryInput.value = "";
+                videoGalleryInput.value = "";
+
+            }
+
+        }
+    );
+
+}
+
+
+// Video galeriden seçilirse
+if (videoGalleryInput) {
+
+    videoGalleryInput.addEventListener(
+        "change",
+        function() {
+
+            if (
+                videoGalleryInput.files.length > 0
+            ) {
+
+                photoCameraInput.value = "";
+                photoGalleryInput.value = "";
+                videoCameraInput.value = "";
+
+            }
+
+        }
+    );
+
+}
 
 
 // ======================================================
